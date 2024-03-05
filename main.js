@@ -2,32 +2,37 @@
 let firstNumber = 0;
 let secondNumber = 0;
 let operator = "";
+let result = 0;
 let displayValue = 0;
+
+// DOM elements
+const displayDOM = document.querySelector('#display');
+const buttons = document.querySelectorAll('#button-container > button');
+
+// utility functions
 
 function operate(operator, a, b) {
     switch (operator) {
         case '+':
-            add(a,b);
-            break;
+            return add(a,b);
 
         case '-':
-            subtract(a,b);
-            break;
+            return subtract(a,b);
 
         case '*':
-            multiply(a,b);
-            break;
+            return multiply(a,b);
 
         case '/':
-            divide(a,b);
-            break;
+            return divide(a,b);
     
         default:
             break;
     }
 }
 
-function showDisplay() {}
+function showDisplay() {
+  displayDOM.innerHTML(displayValue);
+}
 
 // functions for operations
 
@@ -46,3 +51,8 @@ function multiply(a, b) {
 function divide(a, b) {
   return a / b;
 }
+
+// event listeners for buttons
+buttons.forEach((button) => {
+  
+})
