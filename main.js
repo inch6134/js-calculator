@@ -96,15 +96,16 @@ buttons.forEach((button) => {
       showDisplay();
     } else if (operatorRegex.test(button.textContent)) {
       if(operator) {
-        operator = button.textContent;
         setNumber();
         result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
         displayValue = result;
         showDisplay();
         firstNumber = result;
+        operator = button.textContent;
+      } else {
+        operator = button.textContent;
+        setNumber();
       }
-      operator = button.textContent;
-      setNumber();
     } else if (button.textContent === '.') {
       if(currentNumber.includes('.')) return;
       else {
