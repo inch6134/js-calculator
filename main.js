@@ -90,6 +90,7 @@ function percent () {
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     if (numberRegex.test(button.textContent)) {
+      if(currentNumber.length === 10) return;
       currentNumber += button.textContent;
       displayValue = currentNumber;
       showDisplay();
@@ -97,9 +98,12 @@ buttons.forEach((button) => {
       operator = button.textContent;
       setNumber();
     } else if (button.textContent === '.') {
-      currentNumber += button.textContent;
-      displayValue = currentNumber;
-      showDisplay();
+      if(currentNumber.includes('.')) return;
+      else {
+        currentNumber += button.textContent;
+        displayValue = currentNumber;
+        showDisplay();
+    }
     } else if (button.textContent === '%') {
       percent();
     } else if (button.textContent === 'C') {
