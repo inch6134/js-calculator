@@ -95,6 +95,14 @@ buttons.forEach((button) => {
       displayValue = currentNumber;
       showDisplay();
     } else if (operatorRegex.test(button.textContent)) {
+      if(operator) {
+        operator = button.textContent;
+        setNumber();
+        result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
+        displayValue = result;
+        showDisplay();
+        firstNumber = result;
+      }
       operator = button.textContent;
       setNumber();
     } else if (button.textContent === '.') {
@@ -109,15 +117,15 @@ buttons.forEach((button) => {
     } else if (button.textContent === 'C') {
       clear();
     } else if (button.textContent === '=') {
-      if(secondNumber === 0.00) {
-        setNumber();
-        return;
-      }
       setNumber();
-      result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
-      displayValue = result;
-      showDisplay();
-      firstNumber = result;
+      if(secondNumber === 0.00 && currentNumber) {
+        return;
+      } else {
+        result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
+        displayValue = result;
+        showDisplay();
+        firstNumber = result;
+      }
     }
   });
 });
