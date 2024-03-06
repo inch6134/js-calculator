@@ -109,6 +109,10 @@ buttons.forEach((button) => {
     } else if (button.textContent === 'C') {
       clear();
     } else if (button.textContent === '=') {
+      if(secondNumber === 0.00) {
+        setNumber();
+        return;
+      }
       setNumber();
       result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
       displayValue = result;
