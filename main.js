@@ -1,10 +1,10 @@
 // global variables
-let firstNumber = 0.00;
-let secondNumber = 0.00;
-let currentNumber = '';
+let firstNumber = 0.0;
+let secondNumber = 0.0;
+let currentNumber = "";
 let operator = "";
-let result = 0.00;
-let displayValue = '';
+let result = 0.0;
+let displayValue = "";
 const numberRegex = new RegExp("[0-9]");
 const operatorRegex = new RegExp("[+×÷-]");
 let initialized = true;
@@ -35,32 +35,32 @@ function operate(operator, a, b) {
 }
 
 function showDisplay() {
-  if (displayValue === Infinity) {
-    displayDOM.innerHTML = 'OOPS!';
+  if (displayValue === Infinity || !displayValue) {
+    displayDOM.innerHTML = "OOPS!";
   } else {
-    displayDOM.innerHTML =`${displayValue}`;  
+    displayDOM.innerHTML = `${displayValue}`;
   }
 }
 
 function clear() {
-  firstNumber = 0.00;
-  secondNumber = 0.00;
-  currentNumber = '';
-  displayValue = '0';
-  operator = '';
-  result = 0.00;
+  firstNumber = 0.0;
+  secondNumber = 0.0;
+  currentNumber = "";
+  displayValue = "0";
+  operator = "";
+  result = 0.0;
   initialized = true;
   showDisplay();
 }
 
 function setNumber() {
-  if(initialized) {
+  if (initialized) {
     firstNumber = parseFloat(currentNumber);
-    currentNumber = '';
+    currentNumber = "";
     initialized = false;
-  } else if(!initialized) {
+  } else if (!initialized) {
     secondNumber = parseFloat(currentNumber);
-    currentNumber = '';
+    currentNumber = "";
   }
 }
 
@@ -82,22 +82,21 @@ function divide(a, b) {
   return a / b;
 }
 
-function percent () {
-
-}
+function percent() {}
 
 // event listeners for buttons
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     if (numberRegex.test(button.textContent)) {
-      if(currentNumber.length === 10) return;
+      if (currentNumber.length === 10) return;
       currentNumber += button.textContent;
       displayValue = currentNumber;
       showDisplay();
     } else if (operatorRegex.test(button.textContent)) {
-      if(operator) {
+      if (operator) {
         setNumber();
-        result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
+        result =
+          Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
         displayValue = result;
         showDisplay();
         firstNumber = result;
@@ -106,23 +105,40 @@ buttons.forEach((button) => {
         operator = button.textContent;
         setNumber();
       }
-    } else if (button.textContent === '.') {
-      if(currentNumber.includes('.')) return;
+    } else if (button.textContent === ".") {
+      if (currentNumber.includes(".")) return;
       else {
         currentNumber += button.textContent;
         displayValue = currentNumber;
         showDisplay();
-    }
-    } else if (button.textContent === '%') {
+      }
+    } else if (button.textContent === "%") {
       percent();
-    } else if (button.textContent === 'C') {
+    } else if (button.textContent === "C") {
       clear();
-    } else if (button.textContent === '=') {
+    } else if (button.textContent === "=") {
       setNumber();
-      if(secondNumber === 0.00 && currentNumber) {
+      if (operator === "" && secondNumber === 0.0) {
+        result = firstNumber;
+        displayValue = result;
+        showDisplay();
         return;
-      } else {
-        result = Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
+      } else if (operator != "") {
+        currentNumber = firstNumber;
+        setNumber();
+        result =
+          Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
+        displayValue = result;
+        showDisplay();
+        firstNumber = result;
+        return;
+      } else if (secondNumber === 0.0 && currentNumber) return;
+      else if (!displayValue) {
+        showDisplay();
+      }
+      else {
+        result =
+          Math.round(operate(operator, firstNumber, secondNumber) * 100) / 100;
         displayValue = result;
         showDisplay();
         firstNumber = result;
@@ -130,3 +146,10 @@ buttons.forEach((button) => {
     }
   });
 });
+
+// keyboard event listeners
+// buttons.forEach((button) => {
+//   button.addEventListener('keyup', (e) => {
+//     if(e.key === numberRegex || operatorRegex || '.' || 'C' || '=') button.click();
+//   });
+// });
