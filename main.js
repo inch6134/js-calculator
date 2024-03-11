@@ -1,3 +1,17 @@
+/*
+Future updates:
+
+1. Better UI
+2. Keyboard support
+3. % function
+4. Unit conversion
+5. Sqrt operation
+6. +/- function
+7. Refactor events into utility functions
+8. Minimize global variables
+ */
+
+
 // global variables
 let firstNumber = 0.0;
 let secondNumber = 0.0;
@@ -35,7 +49,7 @@ function operate(operator, a, b) {
 }
 
 function showDisplay() {
-  if (displayValue === Infinity || !displayValue) {
+  if (displayValue === Infinity || displayValue === NaN) {
     displayDOM.innerHTML = "OOPS!";
   } else {
     displayDOM.innerHTML = `${displayValue}`;
@@ -82,8 +96,6 @@ function divide(a, b) {
   return a / b;
 }
 
-function percent() {}
-
 // event listeners for buttons
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -112,8 +124,16 @@ buttons.forEach((button) => {
         displayValue = currentNumber;
         showDisplay();
       }
-    } else if (button.textContent === "%") {
-      percent();
+    } else if (button.textContent === "<") {
+      if(currentNumber.length === 1) {
+        clear();
+        return;
+      };
+      currentNumber = currentNumber.slice(0, currentNumber.length - 1);
+      console.log(currentNumber);
+      displayValue = currentNumber;
+      console.log(displayValue);
+      showDisplay();
     } else if (button.textContent === "C") {
       clear();
     } else if (button.textContent === "=") {
@@ -146,10 +166,3 @@ buttons.forEach((button) => {
     }
   });
 });
-
-// keyboard event listeners
-// buttons.forEach((button) => {
-//   button.addEventListener('keyup', (e) => {
-//     if(e.key === numberRegex || operatorRegex || '.' || 'C' || '=') button.click();
-//   });
-// });
